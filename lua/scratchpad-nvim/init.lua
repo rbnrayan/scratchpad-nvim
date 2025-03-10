@@ -1,10 +1,9 @@
 local M = {}
 
-local function create_buffer()
+local function create_buffer(name, filetype)
     local buf = vim.api.nvim_create_buf(true, true)
-    local local_date_time = vim.fn.strftime('%Y-%m-%d')
-    vim.api.nvim_buf_set_name(buf, local_date_time .. '.md')
-    vim.api.nvim_set_option_value('filetype', 'markdown', { buf = buf })
+    vim.api.nvim_buf_set_name(buf, name)
+    vim.api.nvim_set_option_value('filetype', filetype, { buf = buf })
     return buf
 end
 
@@ -58,7 +57,7 @@ local function handle_win_resize(win)
 end
 
 local function open_list()
-    local buf = create_buffer()
+    local buf = create_buffer("scratchpads-list", "txt")
     local win = create_window(buf)
     set_win_buf_keybinds(win, buf, { quit = 'q' })
     handle_win_resize(win)
